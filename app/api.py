@@ -5,7 +5,6 @@ from src.recommend import recommend_movies, recommend_similar_movies
 
 app = FastAPI()
 
-# Load once
 _data = load_data()
 _uim = build_user_item_matrix(_data)
 _user_sim = compute_user_similarity(_uim)
@@ -14,6 +13,11 @@ _item_sim = compute_item_similarity(_uim)
 @app.get('/')
 def home():
     return {'message': 'Movie Recommender API'}
+
+@app.get('/trending')
+def trending():
+    top = _data.groupby('title')['rating'].count().sort_values(ascending=False).head(10)
+    return top.to_dict()
 
 @app.get('/recommend/user/{user_id}')
 def recommend_user(user_id: int):
