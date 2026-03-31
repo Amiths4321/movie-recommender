@@ -16,4 +16,3 @@ def recommend_movies(user_id, user_item_matrix, user_similarity_df, top_n=5):
 
 def recommend_similar_movies(movie_title, item_similarity_df, top_n=5):
     return item_similarity_df[movie_title].sort_values(ascending=False)[1:].head(top_n)
-
